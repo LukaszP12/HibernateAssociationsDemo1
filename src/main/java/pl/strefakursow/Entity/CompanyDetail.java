@@ -20,7 +20,9 @@ public class CompanyDetail {
     private Integer employeeNumber;
 
     @OneToOne(mappedBy = "companyDetail",cascade = CascadeType.ALL) // jak w drugiej klasie nazwy sie to pole
-    private Company company;
+    private Company company; // przechowuje obiekt dostępu Company, musimy napisać jak w tym obiekcie nazywa się
+                                // pole przechowujące dane companyDetails
+                                    // w przypadku połączenia dwukierunkowego musimy określić w obu obiektach CascadeType
 
     public Company getCompany() {
         return company;

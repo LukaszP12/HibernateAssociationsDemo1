@@ -24,16 +24,24 @@ public class BidirectionalApp {
         // wczytujemy
         session = factory.getCurrentSession();
 
+
         // Company company = new Company("KGHM", 1000000);
         Company company = new Company("Orlen",2000000);
         CompanyDetail detail = new CompanyDetail("Poland",15000);
+        detail.setCompany(company);
         company.setCompanyDetail(detail);
 
+
         session.beginTransaction();
+
+     //   session.persist(detail);
+        session.getTransaction().commit();
 
         CompanyDetail detail2 = session.get(CompanyDetail.class, 12); // chcemy utworzyć połączenie dwukierunkowe
 
         session.getTransaction().commit();
+
+        System.out.println(detail.getCompany());
 
         factory.close();
 
