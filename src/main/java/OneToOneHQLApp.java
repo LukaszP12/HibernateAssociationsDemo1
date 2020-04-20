@@ -25,8 +25,10 @@ public class OneToOneHQLApp {
         String getAllCompanies = "Select c from Company c";
         String getAllCompaniesNames = "Select c.name from Company c";
         String getAllItalianCompanies = "Select c from Company c join c.companyDetail cd where cd.residence='Italy'";
-
         String getAllPolishCompanies = "Select c from Company c join c.companyDetail cd where cd.residence='Poland'";
+        String sumOfPolishCompaniesValue = "Select sum(c.value) from Company c join c.companyDetail cd where cd.residence='Poland' ";
+
+        String orderBy = "Select c.name from CompanyDetail cd join cd.company c where cd.employeeNumber < 35000 order by c.value";
 
         currentSession.getTransaction().begin();
 
@@ -41,6 +43,12 @@ public class OneToOneHQLApp {
 
         Query query3 = currentSession.createQuery(getAllPolishCompanies);
         List<Company> resultListPolishCompanies = query3.getResultList();
+
+        Query query4 = currentSession.createQuery(sumOfPolishCompaniesValue);
+        Long sumOfPolishCompanies = (Long)query4.getSingleResult();
+
+        Query query5 = currentSession.createQuery(orderBy);
+        List<String> orderByResult = query5.getResultList();
 
       /*  System.out.println("Commpanies names");
         for (String companyName : resultListNames){
@@ -58,10 +66,14 @@ public class OneToOneHQLApp {
             System.out.println(company.getName());
         } */
 
-        System.out.println("The following companies are based in Poland");
+   /*     System.out.println("The following companies are based in Poland");
         for (Company company : resultListPolishCompanies){
             System.out.println(company.getName());
-        }
+        } */
+
+     //   System.out.println("The value of Polish companies is : " + sumOfPolishCompaniesValue);
+
+        System.out.println("OrderBy Results are: " + orderByResult );
 
         currentSession.getTransaction().commit();
 
