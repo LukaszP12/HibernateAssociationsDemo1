@@ -35,6 +35,14 @@ public class OneToManySaveApp {
 
         System.out.println(company.getName() + "company details: " + company.getCompanyDetail() + " ");
 
+        Property property = new Property("Warszawa",40);
+        Property property1 = new Property("Gdynia",30);
+
+        company.addProperty(property);
+        company.addProperty(property1);
+
+        currentSession.persist(property);
+        currentSession.persist(property1);
 
         currentSession.getTransaction().commit();
 
