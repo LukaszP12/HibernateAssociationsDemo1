@@ -4,13 +4,9 @@ import org.hibernate.cfg.Configuration;
 import pl.strefakursow.entity.Company;
 import pl.strefakursow.entity.CompanyDetail;
 
-public class CascadeApp {
-
-
-
+public class BiDirectionalApp {
 
     public static void main(String[] args) {
-
         Configuration configuration = new Configuration();
 
         configuration.configure("hibernate.cfg.xml");
@@ -22,16 +18,23 @@ public class CascadeApp {
 
         Session currentSession = sessionFactory.getCurrentSession();
 
-        Company company = new Company("KGHM",10000000);
-        CompanyDetail companyDetail =  new CompanyDetail("Poland",15000);
-        company.setCompanyDetail(companyDetail);
+
+    //    Company company = new Company("PZU",100000);
+    //    CompanyDetail companyDetail = new CompanyDetail("Poland",17000);
+    //    companyDetail.setCompany(company);
+    //    company.setCompanyDetail(companyDetail);
 
         currentSession.beginTransaction();
-        currentSession.persist(company);
+
+    //    currentSession.persist(companyDetail);
+        CompanyDetail companyDetail = currentSession.get(CompanyDetail.class, 44);
+        currentSession.remove(companyDetail);
 
         currentSession.getTransaction().commit();
 
-        sessionFactory.close();
+    //    System.out.println(companyDetail.getCompany());
+
+        currentSession.close();
 
     }
 

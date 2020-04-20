@@ -1,8 +1,6 @@
-package pl.strefakursow.Entity;
+package pl.strefakursow.entity;
 
 import javax.persistence.*;
-import java.lang.reflect.Array;
-import java.util.Arrays;
 
 @Entity
 @Table(name = "company")
@@ -19,39 +17,16 @@ public class Company {
     @Column(name = "value")
     private Integer value;
 
-    //@OneToOne(cascade = CascadeType.PERSIST) - we only have to persist the Company Entity, and the associated CompanyDetails is persisted as well
-    @OneToOne(cascade = {CascadeType.REMOVE,CascadeType.PERSIST}) // jeżeli zostanie usunięte Company to zostanie usunięte także CompanyDetails
+    @OneToOne(cascade = {CascadeType.REMOVE,CascadeType.PERSIST})
     @JoinColumn(name = "id_company_detail")
     private CompanyDetail companyDetail;
 
-    public CompanyDetail getCompanyDetail() {
-        return companyDetail;
-    }
-
-    public void setCompanyDetail(CompanyDetail companyDetail) {
-        this.companyDetail = companyDetail;
-    }
-
     public Company() {
-    }
-
-    public Company(Integer idCompany, String name, Integer value) {
-        this.idCompany = idCompany;
-        this.name = name;
-        this.value = value;
     }
 
     public Company(String name, Integer value) {
         this.name = name;
         this.value = value;
-    }
-
-    public Integer getIdCompany() {
-        return idCompany;
-    }
-
-    public void setIdCompany(Integer idCompany) {
-        this.idCompany = idCompany;
     }
 
     public String getName() {
@@ -70,6 +45,14 @@ public class Company {
         this.value = value;
     }
 
+    public CompanyDetail getCompanyDetail() {
+        return companyDetail;
+    }
+
+    public void setCompanyDetail(CompanyDetail companyDetail) {
+        this.companyDetail = companyDetail;
+    }
+
     @Override
     public String toString() {
         return "Company{" +
@@ -78,6 +61,5 @@ public class Company {
                 ", value=" + value +
                 '}';
     }
-
 
 }

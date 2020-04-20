@@ -1,35 +1,37 @@
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
-import pl.strefakursow.Entity.Company;
-import pl.strefakursow.Entity.CompanyDetail;
+import pl.strefakursow.entity.Company;
+import pl.strefakursow.entity.CompanyDetail;
 
 public class CascadeRemoveApp {
 
+
+
     public static void main(String[] args) {
-        // stworzyc obiekt Configuration
-        Configuration conf = new Configuration().configure("hibernate.cfg.xml");
+        Configuration configuration = new Configuration();
 
-        // wczytanie adnotacji
-        conf.addAnnotatedClass(Company.class);
-        conf.addAnnotatedClass(CompanyDetail.class);
+        configuration.configure("hibernate.cfg.xml");
 
-        // stworzenie obiektu SessionFactory
-        SessionFactory factory = conf.buildSessionFactory();
+        configuration.addAnnotatedClass(Company.class);
+        configuration.addAnnotatedClass(CompanyDetail.class);
 
-        // pobranie sesji
-        Session session = factory.getCurrentSession();
+        SessionFactory sessionFactory = configuration.buildSessionFactory();
 
-        session.beginTransaction();
+        Session currentSession = sessionFactory.getCurrentSession();
 
-        Company company = session.get(Company.class, 16);
-        // usuwamy obiekt company z bazy danych
-        session.remove(company);
-        // session.refresh(company);  odświeżenie danego obiektu - powoduje też odświeżenie obiektu z nim powiązanego
+        currentSession.beginTransaction();
 
-        session.getTransaction().commit();
+        Company company = currentSession.get(Company.class, 48);
+        currentSession.remove(company);
 
-        factory.close();
+        // currentSession.refresh(); refresh() causes the data from DataBase to be read again into the object
+        // currentSession.detach(); if we detach the parent object from the session, then the child object also gets detached
+        // currentSession.merge(); if we add the parent object to the session, then the child object also gets merged
+
+        currentSession.getTransaction().commit();
+
+        sessionFactory.close();
+
     }
-
 }
