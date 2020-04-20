@@ -59,6 +59,14 @@ public class Company {
         this.companyDetail = companyDetail;
     }
 
+    public List<Property> getProperties() {
+        return properties;
+    }
+
+    public void setProperties(List<Property> properties) {
+        this.properties = properties;
+    }
+
     public void addProperty(Property property){
         if (properties == null){
             properties = new ArrayList<>(); }
