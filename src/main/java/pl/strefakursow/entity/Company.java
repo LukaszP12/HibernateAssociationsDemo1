@@ -1,6 +1,9 @@
 package pl.strefakursow.entity;
 
 import javax.persistence.*;
+import javax.sql.rowset.Predicate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "company")
@@ -20,6 +23,9 @@ public class Company {
     @OneToOne(cascade = {CascadeType.REMOVE,CascadeType.PERSIST})
     @JoinColumn(name = "id_company_detail")
     private CompanyDetail companyDetail;
+
+    @OneToMany(mappedBy = "company",cascade = {CascadeType.REMOVE,CascadeType.PERSIST})
+    private List<Property> properties;
 
     public Company() {
     }
@@ -52,6 +58,14 @@ public class Company {
     public void setCompanyDetail(CompanyDetail companyDetail) {
         this.companyDetail = companyDetail;
     }
+
+    public void addProperty(Property property){
+        if (properties == null){
+            properties = new ArrayList<>(); }
+
+            properties.add(property);
+            property.setCompany(this);
+        }
 
     @Override
     public String toString() {
